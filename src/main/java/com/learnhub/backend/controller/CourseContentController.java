@@ -49,29 +49,28 @@ public class CourseContentController {
     public ResponseEntity<Void> deleteContent(@PathVariable Long id) {
         contentRepository.findById(id).ifPresent(content -> {
             
-            // 1. Delete all attached submissions and their files first (prevent Foreign Key crashes!)
             submissionRepository.findByAssignmentId(id).forEach(sub -> {
                 try {
                     if (sub.getContent() != null && sub.getContent().contains("/api/files/")) {
                         String studentFilename = sub.getContent().substring(sub.getContent().lastIndexOf("/") + 1);
                         storageService.delete(studentFilename);
                     }
-                } catch (Exception ignored) {} // Catch OS file-locking on Windows to prevent cascade failures
+                } catch (Exception ignored) {}
                 submissionRepository.delete(sub);
             });
             
-            // Force flush so database constraint is cleared before we delete the parent
+
             submissionRepository.flush();
 
-            // 2. Delete the actual course content file
+
             try {
                 if (content.getUrl() != null && content.getUrl().contains("/api/files/")) {
                     String filename = content.getUrl().substring(content.getUrl().lastIndexOf("/") + 1);
                     storageService.delete(filename);
                 }
-            } catch (Exception ignored) {} // Catch OS file-locking on Windows
+            } catch (Exception ignored) {} 
             
-            // 3. Delete the parent course content record
+
             contentRepository.delete(content);
         });
         return ResponseEntity.ok().build();
