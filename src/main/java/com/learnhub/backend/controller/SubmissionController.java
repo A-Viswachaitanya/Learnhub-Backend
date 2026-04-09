@@ -97,7 +97,6 @@ public class SubmissionController {
         sub.setFeedback(dto.getFeedback());
         Submission saved = submissionRepository.save(sub);
 
-        // Send grade notification email to student
         User student = saved.getUser();
         String assignmentTitle = saved.getAssignment().getTitle();
         String studentEmail = student.getEmail();
