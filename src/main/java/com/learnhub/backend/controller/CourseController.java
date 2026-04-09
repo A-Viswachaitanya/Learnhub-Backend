@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*") // Open integration block
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/courses")
 @RequiredArgsConstructor
