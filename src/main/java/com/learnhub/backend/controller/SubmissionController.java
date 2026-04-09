@@ -39,7 +39,6 @@ public class SubmissionController {
         
         Submission saved = submissionRepository.save(sub);
         
-        // Send submission confirmation email to student
         String studentEmail = user.getEmail();
         String studentName = user.getName();
         String assignmentTitle = assignment.getTitle();
