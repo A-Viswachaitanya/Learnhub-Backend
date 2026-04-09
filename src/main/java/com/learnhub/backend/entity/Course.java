@@ -23,7 +23,6 @@ public class Course {
 
     private String category;
 
-    // Many-To-One relationship example based on syllabus
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
